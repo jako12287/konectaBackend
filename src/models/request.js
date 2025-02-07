@@ -25,7 +25,7 @@ const Request = sequelize.define(
     id_employee: {
       type: DataTypes.INTEGER,
       references: {
-        model: "Employee",
+        model: "employees",
         key: "id",
       },
       allowNull: false,

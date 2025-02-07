@@ -2,6 +2,7 @@ import express from "express";
 import routerHome from "./routes/home.route.js";
 import routerUser from "./routes/auth.route.js";
 import routerEmployee from "./routes/employee.route.js";
+import routerRequest from "./routes/request.route.js";
 import dotenv from "dotenv";
 import sequelize from "./config/database.js";
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(routerHome);
 app.use(routerUser);
 app.use(routerEmployee);
+app.use(routerRequest);
 
 sequelize
   .sync({
