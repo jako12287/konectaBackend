@@ -112,3 +112,35 @@ export const getRequestsAll = async (req, res) => {
     });
   }
 };
+
+export const deleteRequest = async (req, res) => {
+  try {
+    const { id_request } = req.params;
+
+    const request = await Request.findByPk(id_request);
+
+    if (!request) {
+      return res.status(404).json({
+        error: {
+          es: "La solicitud no existe",
+          en: "Request not found",
+        },
+      });
+    }
+
+    await request.destroy();
+    return res.status(200).json({
+      message: {
+        es: "Solicitud eliminada",
+        en: "Request deleted",
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: {
+        es: "Error al eliminar la solicitud",
+        en: "Error deleting request",
+      },
+    });
+  }
+};
