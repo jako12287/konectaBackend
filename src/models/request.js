@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database";
-import Employee from "./employee";
+import sequelize from "../config/database.js";
+import Employee from "./employee.js";
 
 const Request = sequelize.define(
   "Request",

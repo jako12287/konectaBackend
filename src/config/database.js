@@ -1,6 +1,6 @@
-import { sequelize } from "sequelize";
+import { Sequelize } from "sequelize";
 
-const sequelize = new sequelize("konectaBD", "johan", "Bellapajarita2024", {
+const sequelize = new Sequelize("konectabd", "johan", "Bellapajarita2024", {
   host: "localhost",
   dialect: "postgres",
 });

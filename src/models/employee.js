@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 
 const Employee = sequelize.define(
   "Employee",
@@ -26,6 +26,18 @@ const Employee = sequelize.define(
       type: DataTypes.ENUM("employee", "admin"),
       allowNull: false,
       defaultValue: "employee",
+    },
+    email: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
     },
   },
   {
