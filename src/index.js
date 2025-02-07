@@ -1,6 +1,7 @@
 import express from "express";
 import routerHome from "./routes/home.route.js";
-import routerUser from "./routes/user.route.js";
+import routerUser from "./routes/auth.route.js";
+import routerEmployee from "./routes/employee.route.js";
 import dotenv from "dotenv";
 import sequelize from "./config/database.js";
 dotenv.config();
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(routerHome);
 app.use(routerUser);
+app.use(routerEmployee);
 
 sequelize
   .sync({

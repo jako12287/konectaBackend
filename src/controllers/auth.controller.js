@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import Employee from "../models/employee.js";
 import jwt from "jsonwebtoken";
-
+import { secret } from "../config/config.js";
 export const register = async (req, res) => {
   const { name, salary, entryDate, password, role, email } = req.body;
 
@@ -90,7 +90,7 @@ export const login = async (req, res) => {
         },
       });
     }
-    const secret = process.env.SECRET_KEY || "konecta";
+
     const token = jwt.sign(
       {
         id: employee.id,
