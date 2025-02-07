@@ -84,3 +84,31 @@ export const getRequestsByEmployee = async (req, res) => {
     });
   }
 };
+
+export const getRequestsAll = async (req, res) => {
+  try {
+    const requests = await Request.findAll({
+      include: [
+        {
+          model: Employee,
+          attributes: ["id", "name", "email", "role", "salary", "entryDate"],
+        },
+      ],
+    });
+
+    res.status(200).json({
+      message: {
+        es: "Solicitudes obtenidas",
+        en: "Requests fetched",
+      },
+      data: requests,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: {
+        es: "Error al obtener las solicitudes",
+        en: "Error fetching requests",
+      },
+    });
+  }
+};
