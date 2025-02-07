@@ -40,9 +40,8 @@ export const createRequest = async (req, res) => {
 export const getRequestsByEmployee = async (req, res) => {
   try {
     const { id_employee } = req.params;
-
-    const employee = await Employee.findByPk(id_employee);
     const { id, role } = req.user;
+    const { page = 1, limit = 10, code } = req.query;
 
     if (role !== "admin" && id !== parseInt(id_employee)) {
       return res.status(403).json({
@@ -53,6 +52,7 @@ export const getRequestsByEmployee = async (req, res) => {
       });
     }
 
+    const employee = await Employee.findByPk(id_employee);
     if (!employee) {
       return res.status(404).json({
         error: {
@@ -62,20 +62,27 @@ export const getRequestsByEmployee = async (req, res) => {
       });
     }
 
-    const requests = await Request.findAll({
-      where: {
-        id_employee,
-      },
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+    const offset = (pageNumber - 1) * limitNumber;
+
+    const where = { id_employee };
+    if (code) where.code = { [Op.iLike]: `%${code}%` };
+
+    const { count, rows } = await Request.findAndCountAll({
+      where,
+      limit: limitNumber,
+      offset,
     });
 
     res.status(200).json({
-      message: {
-        es: "Solicitudes obtenidas",
-        en: "Requests fetched",
-      },
-      data: requests,
+      total: count,
+      page: pageNumber,
+      totalPages: Math.ceil(count / limitNumber),
+      requests: rows,
     });
   } catch (error) {
+    console.error("Error en getRequestsByEmployee:", error);
     res.status(500).json({
       error: {
         es: "Error al obtener las solicitudes",
@@ -87,23 +94,36 @@ export const getRequestsByEmployee = async (req, res) => {
 
 export const getRequestsAll = async (req, res) => {
   try {
-    const requests = await Request.findAll({
+    const { page = 1, limit = 10, code } = req.query;
+
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+    const offset = (pageNumber - 1) * limitNumber;
+
+    const where = {};
+
+    if (code) where.code = { [Op.iLike]: `%${code}%` };
+
+    const { count, rows } = await Request.findAndCountAll({
+      where,
       include: [
         {
           model: Employee,
           attributes: ["id", "name", "email", "role", "salary", "entryDate"],
         },
       ],
+      limit: limitNumber,
+      offset,
     });
 
     res.status(200).json({
-      message: {
-        es: "Solicitudes obtenidas",
-        en: "Requests fetched",
-      },
-      data: requests,
+      total: count,
+      page: pageNumber,
+      totalPages: Math.ceil(count / limitNumber),
+      requests: rows,
     });
   } catch (error) {
+    console.error("Error en getRequestsAll:", error);
     res.status(500).json({
       error: {
         es: "Error al obtener las solicitudes",
