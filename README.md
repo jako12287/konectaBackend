@@ -10,27 +10,27 @@ Clona el repositorio con el siguiente comando:
 git clone https://github.com/jako12287/konectaBackend.git
 
 ```
-### Navega hasta la carpeta del proyecto
+### 2. Navega hasta la carpeta del proyecto
 ```bash
 cd konectaBackend
 ```
 
-### Instalacion de las dependencias necesarias para el proyecto
+### 3. Instalacion de las dependencias necesarias para el proyecto
 ```bash
 npm install
 ```
 
-### Configurar Docker Desktop
+### 4. Configurar Docker Desktop
 Puedes descargarlo aca 
 ```bash
 https://www.docker.com/products/docker-desktop/
 ```
 
-### Copiar el archivo .env
+### 5. Copiar el archivo .env
 
 En la raiz del proyecto copiar el archivo .env proporcionado 
 
-### Levantar los contenedores con Docker Compose
+### 6. Levantar los contenedores con Docker Compose
 ```bash
 docker-compose up --build
 ```
